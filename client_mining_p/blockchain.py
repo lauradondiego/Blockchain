@@ -158,7 +158,11 @@ blockchain = Blockchain()
 def mine():
     # Run the proof of work algorithm to get the next proof
     # call the function you just wrote
-    proof = blockchain.proof_of_work(blockchain.last_block)
+    # proof = blockchain.proof_of_work(blockchain.last_block)
+    proof = blockchain.last_block
+    # ^ DOES THIS WORK INSTEAD OF LINE ABOVE WITH POST REQUEST??
+    # ^ YESS!
+
     # Forge the new Block by adding it to the chain with the proof
     previous_hash = blockchain.hash(blockchain.last_block)
     block = blockchain.new_block(proof, previous_hash)
