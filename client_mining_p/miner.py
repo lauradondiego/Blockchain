@@ -49,6 +49,10 @@ if __name__ == '__main__':
     else:
         node = "http://localhost:5000"
 
+    coins_mined = 0
+    # ^ set this variable up here so that you can add +=1 for the last
+    # ^ to-do on line 87
+
     # Load ID
     f = open("my_id.txt", "r")
     id = f.read()
@@ -73,7 +77,7 @@ if __name__ == '__main__':
         # call proof of work method from the top
         # data coming from try line 62 from the request library
         # going to -localhost:5000/last_block- and its getting the data and you set the
-        # data to the response that you get back 
+        # data to the response that you get back
 
         # When found, POST it to the server {"proof": new_proof, "id": id}
         post_data = {"proof": new_proof, "id": id}
@@ -84,7 +88,11 @@ if __name__ == '__main__':
         # TODO: If the server responds with a 'message' 'New Block Forged'
         # add 1 to the number of coins mined and print it.  Otherwise,
         # print the message from the server.
-        pass
+        if (data.json()):
+            coins_mined += 1
+            print(f'Total coins mined: {coins_mined}')
+        else:
+            print(data.json(res))
 
     # NOTES
     #  A nonce is a number that we'll keep on changing until
