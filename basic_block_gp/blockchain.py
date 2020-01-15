@@ -5,8 +5,16 @@ from uuid import uuid4
 
 from flask import Flask, jsonify, request
 
-## there is a pip file so, run -pipenv shell- in terminal
-## then do -pipenv install- to install all of the dependencies
+# there is a pip file so, run -pipenv shell- in terminal
+# then do -pipenv install- to install all of the dependencies
+# hashlib import on line 1 does hash functions for you
+# uuid import on line 4 means importos a universally unique id
+# flask import from line 6 is a microframework
+# cd in any python run the file
+# test the routes in the browser http://localhost:5000/mine and http://localhost:5000/chain
+# with flask, you have to control c out of the server then restart it by running the file to see tests
+# I added a test hello world in the chain endpoint and it works when restarted
+
 
 class Blockchain(object):
     def __init__(self):
@@ -124,12 +132,16 @@ def mine():
     }
 
     return jsonify(response), 200
+    # ^ success response in json
+    # (dont spend too much time learning flask, recognize 200 is success!)
 
 
 @app.route('/chain', methods=['GET'])
 def full_chain():
     response = {
         # TODO: Return the chain and its current length
+        'test': "hello there"
+
     }
     return jsonify(response), 200
 
