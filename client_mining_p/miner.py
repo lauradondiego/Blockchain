@@ -88,11 +88,11 @@ if __name__ == '__main__':
         # TODO: If the server responds with a 'message' 'New Block Forged'
         # add 1 to the number of coins mined and print it.  Otherwise,
         # print the message from the server.
-        if (data.json()):
+        if data.get('message') == 'New Block Forged':
             coins_mined += 1
             print(f'Total coins mined: {coins_mined}')
         else:
-            print(data.json(res))
+            print(data.get('message'))
 
     # NOTES
     #  A nonce is a number that we'll keep on changing until
