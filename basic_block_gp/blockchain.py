@@ -14,6 +14,7 @@ from flask import Flask, jsonify, request
 # test the routes in the browser http://localhost:5000/mine and http://localhost:5000/chain
 # with flask, you have to control c out of the server then restart it by running the file to see tests
 # I added a test hello world in the chain endpoint and it works when restarted
+# UNLESS YOU CHANGE DEBUGGER TO TRUE WHICH I DID SO NOW IT GOES AUTOMATICALLY
 
 
 class Blockchain(object):
@@ -41,13 +42,23 @@ class Blockchain(object):
         """
 
         block = {
-            # TODO
+            'index': len(self.chain) + 1,
+            'timestamp': time(),
+            # imported up top
+            'transactions': self.current_transactions,
+            # coming from the init up in Blockchain class
+            'proof': proof,
+            # proof is coming from passing it in
+            'previous_hash': previous_hash
+            # hash of previous block coming from passing it in
         }
 
         # Reset the current list of transactions
+        self.current_transactions = []
         # Append the chain to the block
+        self.chain.append(block)
         # Return the new block
-        pass
+        return block
 
     def hash(block):
         """
@@ -140,7 +151,7 @@ def mine():
 def full_chain():
     response = {
         # TODO: Return the chain and its current length
-        'test': "hello there"
+        'test': "hello there testing with auto debug set to true"
 
     }
     return jsonify(response), 200
@@ -148,4 +159,4 @@ def full_chain():
 
 # Run the program on port 5000
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
