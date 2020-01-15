@@ -6,6 +6,7 @@ from uuid import uuid4
 from flask import Flask, jsonify, request
 
 ## there is a pip file so, run -pipenv shell- in terminal
+## then do -pipenv install- to install all of the dependencies
 
 class Blockchain(object):
     def __init__(self):
