@@ -5,6 +5,7 @@ from uuid import uuid4
 
 from flask import Flask, jsonify, request
 
+## there is a pip file so, run -pipenv shell- in terminal
 
 class Blockchain(object):
     def __init__(self):
