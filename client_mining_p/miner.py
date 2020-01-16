@@ -13,7 +13,12 @@ def proof_of_work(block):
     in an effort to find a number that is a valid proof
     :return: A valid proof for the provided block
     """
-    pass
+    block_string = json.dumps(block)
+    proof = 0
+    while valid_proof(block_string, proof) is False:
+        proof += 1
+    return proof
+    # return proof
 
 
 def valid_proof(block_string, proof):
@@ -27,7 +32,14 @@ def valid_proof(block_string, proof):
     correct number of leading zeroes.
     :return: True if the resulting hash is a valid proof, False otherwise
     """
-    pass
+    # find out if it has 6 leading zeros below
+    guess = f"{block_string}{proof}".encode()
+    # ADD .ENCODE() IF YOU GET ERRORS WHEN YOU TEST MINE ENDPOINT IN BROSWER
+    # now find the hash below
+    guess_hash = hashlib.sha256(guess).hexdigest()
+    # compare below to see if equal to first 3 zeros
+    return guess_hash[:6] == "000000"
+    # return True or False
 
 
 if __name__ == '__main__':
@@ -36,6 +48,10 @@ if __name__ == '__main__':
         node = sys.argv[1]
     else:
         node = "http://localhost:5000"
+
+    coins_mined = 0
+    # ^ set this variable up here so that you can add +=1 for the last
+    # ^ to-do on line 87
 
     # Load ID
     f = open("my_id.txt", "r")
@@ -57,6 +73,11 @@ if __name__ == '__main__':
 
         # TODO: Get the block from `data` and use it to look for a new proof
         # new_proof = ???
+        new_proof = proof_of_work(data.get("last_block"))
+        # call proof of work method from the top
+        # data coming from try line 62 from the request library
+        # going to -localhost:5000/last_block- and its getting the data and you set the
+        # data to the response that you get back
 
         # When found, POST it to the server {"proof": new_proof, "id": id}
         post_data = {"proof": new_proof, "id": id}
@@ -67,4 +88,17 @@ if __name__ == '__main__':
         # TODO: If the server responds with a 'message' 'New Block Forged'
         # add 1 to the number of coins mined and print it.  Otherwise,
         # print the message from the server.
-        pass
+        if data.get('message') == 'New Block Forged':
+            coins_mined += 1
+            print(f'Total coins mined: {coins_mined}')
+        else:
+            print(data.get('message'))
+
+    # NOTES
+    #  A nonce is a number that we'll keep on changing until
+    #  we get a hash that satisfies our constraint.
+    # blockchains are immutable - you cannot change them
+    # a GENESIS block refers to the first block in the chain
+    # PROOF is the RESULT of mining
+    # PROOF OF WORK is how new blocks are created - the goal is to discover a number
+        # which solves the problem (num is difficult to find but easy to verify)
