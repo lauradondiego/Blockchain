@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const UserData = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     axios
@@ -10,7 +10,7 @@ const UserData = () => {
         "http://localhost:5000/chain"
       )
       .then(response => {
-        setData(response.data);
+        setData(response.data.chain);
 
         console.log("response", response.data);
       });
@@ -19,20 +19,20 @@ const UserData = () => {
   // the [] means you only want it it to load once
 
   return (
+    <>
     <div>
-      <div className="App">
-        <h2>testing userdata</h2>
-        <p> {data.map(transaction => {
-                return(
-                    <div key={transaction.index}>
-                        <h1>{transaction.chain.transactions}</h1>
-                    </div>
-                )
-            })} 
-          </p>
+    <h2>transaction data working!</h2>
+      {data && data.map(block => {
+        return(
+        // console.log(block.index)
+            block.transactions.map(transaction => { 
+              return <h2>Receipient:{transaction.recipient} Amount:{transaction.amount}Timestamp:{block.timestamp}</h2>
 
+            }))
+            })} 
+       
       </div>
-    </div>
+    </>
   );
 };
 export default UserData;
